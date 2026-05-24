@@ -5,10 +5,80 @@ let questions = [];
 let current = 0;
 let stats = { total: 0, answered: 0, correct: 0 };
 let dataLoaded = false;
+let answersByQuestion = [];
 
 const LETTERS = ['א','ב','ג','ד'];
+const EMBEDDED_DB_KEY = 'MAHAT_QUESTIONS_DATA';
+const VERIFIED_DB_KEY = 'MAHAT_VERIFIED_DATA';
+const verifiedQuestionKeys = new Set();
+const verifiedAnswerByKey = new Map();
+let qualityState = {
+  main: { trusted: false, reason: 'טרם נבדק' },
+  verified: { trusted: false, reason: 'טרם נבדק' }
+};
 
-function normalizeQuestion(raw) {
+function evaluateAnswerQuality(indexes, label) {
+  const counts = [0, 0, 0, 0];
+  let total = 0;
+  for (const index of indexes) {
+    if (!Number.isInteger(index) || index < 0 || index > 3) continue;
+    counts[index] += 1;
+    total += 1;
+  }
+  if (total < 20) {
+    return { trusted: false, reason: `${label}: פחות מדי תשובות זמינות (${total})` };
+  }
+  const distinct = counts.filter((count) => count > 0).length;
+  const dominant = Math.max(...counts);
+  const dominantRatio = dominant / total;
+  if (distinct < 3) {
+    return { trusted: false, reason: `${label}: התפלגות תשובות צרה מדי (${counts.join('/')})` };
+  }
+  if (dominantRatio > 0.75) {
+    return { trusted: false, reason: `${label}: התפלגות חשודה (${counts.join('/')})` };
+  }
+  return { trusted: true, reason: `${label}: התפלגות נראית תקינה (${counts.join('/')})` };
+}
+
+function evaluateMainDatasetQuality(datasetExams) {
+  const indexes = [];
+  for (const exam of datasetExams || []) {
+    for (const question of exam.questions || []) {
+      if (Number.isInteger(question.correct_index)) {
+        indexes.push(question.correct_index);
+      } else if (question.correct_answer) {
+        indexes.push(LETTERS.indexOf(question.correct_answer));
+      }
+    }
+  }
+  qualityState.main = evaluateAnswerQuality(indexes, 'מאגר ראשי');
+}
+
+function applyLoadedExams(loadedExams, sourceLabel = 'מאגר') {
+  exams = Array.isArray(loadedExams) ? loadedExams : [];
+  dataLoaded = exams.length > 0;
+  evaluateMainDatasetQuality(exams);
+  document.querySelectorAll('[data-action="start-full"], [data-action="start-random"]').forEach(b => { if (b) b.disabled = false; });
+  document.querySelectorAll('[data-action="start-verified"]').forEach(b => { if (b) b.disabled = !qualityState.verified.trusted; });
+  const totalQ = exams.flatMap(e => e.questions || []).length;
+  setExamTitle({exam_title: `${sourceLabel}: ${exams.length} מבחנים, ${totalQ} שאלות`});
+  const dbg = document.getElementById('debug-status');
+  if (dbg) {
+    if (!dataLoaded) {
+      dbg.textContent = 'לא נטענו מבחנים.';
+    } else if (!qualityState.main.trusted && !qualityState.verified.trusted) {
+      dbg.textContent = `סטטוס: נטענו ${exams.length} מבחנים, אך אמינות מפתח התשובות חשודה. (${qualityState.main.reason})`;
+    } else {
+      dbg.textContent = `סטטוס: נטען ${exams.length} מבחנים, ${totalQ} שאלות`;
+    }
+  }
+}
+
+function makeQuestionKey(examId, questionNumber) {
+  return `${examId || ''}|${questionNumber || ''}`;
+}
+
+function normalizeQuestion(raw, examMeta = {}) {
   // Support different shapes: {prompt, options: {א:..}} or {prompt, options: []}
   const prompt = raw.prompt || raw.text || raw.prompt_text || raw.raw || '';
   let opts = [];
@@ -23,37 +93,74 @@ function normalizeQuestion(raw) {
     }
   }
   while (opts.length < 4) opts.push('');
+  const examId = examMeta.exam_id || raw.exam_id || '';
+  const questionNumber = raw.number || raw.question_number || null;
+  const key = makeQuestionKey(examId, questionNumber);
+  const hasVerifiedAnswer = verifiedAnswerByKey.has(key);
+  const fallbackIndex = typeof raw.correct_index === 'number' ? raw.correct_index : (raw.correct_answer ? LETTERS.indexOf(raw.correct_answer) : -1);
+  let resolvedIndex = -1;
+  let sourceLabel = 'ללא מפתח תשובה אמין';
+  let isVerified = false;
+
+  if (hasVerifiedAnswer) {
+    resolvedIndex = verifiedAnswerByKey.get(key);
+    sourceLabel = 'פתרון רשמי מאומת (מה"ט)';
+    isVerified = true;
+  } else if (qualityState.main.trusted && fallbackIndex >= 0) {
+    resolvedIndex = fallbackIndex;
+    sourceLabel = 'מפתח תשובות מהמאגר (לא מאומת רשמית)';
+  }
 
   return {
     prompt: prompt,
     options: opts.slice(0, 4),
-    correct_index: typeof raw.correct_index === 'number' ? raw.correct_index : (raw.correct_answer ? LETTERS.indexOf(raw.correct_answer) : -1)
+    correct_index: resolvedIndex,
+    source_label: sourceLabel,
+    answer_verified: isVerified
   };
 }
 
 async function loadData() {
   try {
+    const verifiedFromScript = Array.isArray(window[VERIFIED_DB_KEY]) ? window[VERIFIED_DB_KEY] : [];
+    qualityState.verified = evaluateAnswerQuality(
+      verifiedFromScript.map((item) => Number(item?.correct_index)),
+      'מאגר מאומת'
+    );
+
+    verifiedQuestionKeys.clear();
+    verifiedAnswerByKey.clear();
+    if (qualityState.verified.trusted) {
+      for (const item of verifiedFromScript) {
+        if (!item || typeof item !== 'object') continue;
+        const key = makeQuestionKey(item.exam_id, item.question_number);
+        if (!key) continue;
+        if (!Number.isInteger(item.correct_index)) continue;
+        verifiedQuestionKeys.add(key);
+        verifiedAnswerByKey.set(key, item.correct_index);
+      }
+    }
+
+    if (Array.isArray(window[EMBEDDED_DB_KEY]) && window[EMBEDDED_DB_KEY].length) {
+      applyLoadedExams(window[EMBEDDED_DB_KEY], 'מאגר');
+      return;
+    }
     const res = await fetch(DATA_PATH);
-    exams = await res.json();
-    dataLoaded = true;
-    // enable start buttons
-    document.querySelectorAll('[data-action="start-full"], [data-action="start-random"]').forEach(b => { if (b) b.disabled = false; });
-    // show counts
-    const totalQ = exams.flatMap(e => e.questions || []).length;
-    setExamTitle({exam_title: `מאגר: ${exams.length} מבחנים, ${totalQ} שאלות`});
-    // update debug status
-    const dbg = document.getElementById('debug-status');
-    if (dbg) dbg.textContent = `סטטוס: נטען ${exams.length} מבחנים, ${totalQ} שאלות`;
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const loaded = await res.json();
+    applyLoadedExams(loaded, 'מאגר');
   } catch (e) {
     console.error('Failed to load data', e);
-    exams = [];
     const dbg = document.getElementById('debug-status');
-    if (dbg) dbg.textContent = `טעינת מאגר נכשלה: ${e}`;
+    const runningFromFile = window.location.protocol === 'file:';
+    if (dbg) dbg.textContent = runningFromFile ? 'טעינת מאגר נכשלה. נסה לפתוח דרך localhost.' : `טעינת מאגר נכשלה: ${e}`;
+    applyLoadedExams([], 'ללא מאגר');
   }
 }
 
 function buildQuestionListFromExam(exam) {
-  questions = (exam.questions || []).map(normalizeQuestion);
+  questions = (exam.questions || []).map((q) => normalizeQuestion(q, exam));
+  answersByQuestion = new Array(questions.length).fill(null);
   stats.total = questions.length;
   stats.answered = 0;
   stats.correct = 0;
@@ -71,9 +178,10 @@ function setExamTitle(exam) {
 
 function startFullTest() {
   // Load all questions from all exams into one continuous test
-  const pool = exams.flatMap(e => (e.questions || []).map(normalizeQuestion));
+  const pool = exams.flatMap(e => (e.questions || []).map(q => normalizeQuestion(q, e)));
   if (pool.length) {
     questions = pool;
+    answersByQuestion = new Array(questions.length).fill(null);
     stats.total = questions.length; stats.answered = 0; stats.correct = 0; current = 0;
     setExamTitle({exam_title: `כל המאגר - ${questions.length} שאלות`} );
     renderQuestion(0); populateQuestionJump(); updateStats();
@@ -85,35 +193,60 @@ function startFullTest() {
 }
 
 function startRandomTest() {
-  const pool = exams.flatMap(e => e.questions || []).map(normalizeQuestion);
+  const pool = exams.flatMap(e => (e.questions || []).map(q => normalizeQuestion(q, e)));
   if (!pool.length) return buildQuestionListFromExam({questions: sampleQuestions()});
   // pick up to 40 random
   const n = Math.min(40, pool.length);
   const shuffled = [...pool].sort(() => Math.random()-0.5).slice(0,n);
   questions = shuffled;
+  answersByQuestion = new Array(questions.length).fill(null);
   stats.total = questions.length;
   stats.answered = 0; stats.correct = 0; current = 0;
   renderQuestion(0); populateQuestionJump(); updateStats();
 }
 
+function startVerifiedTest() {
+  const pool = exams
+    .flatMap(e => (e.questions || []).map(q => normalizeQuestion(q, e)))
+    .filter(q => q.answer_verified);
+  if (!pool.length) {
+    const dbg = document.getElementById('debug-status');
+    if (dbg) dbg.textContent = 'לא נמצאו מספיק שאלות מאומתות. עבר למבחן מלא.';
+    return startFullTest();
+  }
+  questions = pool;
+  answersByQuestion = new Array(questions.length).fill(null);
+  stats.total = questions.length;
+  stats.answered = 0;
+  stats.correct = 0;
+  current = 0;
+  setExamTitle({exam_title: `מבחן מאומת - ${questions.length} שאלות (מה"ט הנדסאי סאונד)`});
+  renderQuestion(0);
+  populateQuestionJump();
+  updateStats();
+}
+
 function sampleQuestions() {
   return [
-    {prompt: 'מהי מהירות הקול בגובה פני הים?', options: ['340 מ/ש', '300 מ/ש', '150 מ/ש', '1,000 מ/ש'], correct_index: 0},
-    {prompt: 'איזה מהמכשירים הבא אינו מכשיר כניסה לאות?', options: ['מיקרופון','רמקול','DI','מגבר'], correct_index: 1}
+    {prompt: 'מהי מהירות הקול בגובה פני הים?', options: ['340 מ/ש', '300 מ/ש', '150 מ/ש', '1,000 מ/ש'], correct_index: 0, answer_verified: false},
+    {prompt: 'איזה מהמכשירים הבא אינו מכשיר כניסה לאות?', options: ['מיקרופון','רמקול','DI','מגבר'], correct_index: 1, answer_verified: false}
   ];
 }
 
 function renderQuestion(idx) {
   if (!questions.length) {
-    document.getElementById('question-text').textContent = 'אין שאלות טעונות — לחץ על "מבחן מלא" או טען JSON.';
+    document.getElementById('question-text').textContent = 'אין שאלות טעונות — לחץ על "מבחן מלא".';
     document.getElementById('options').innerHTML = '';
     document.getElementById('q-number').textContent = '0/0';
+    populateQuestionJump();
     return;
   }
   current = Math.max(0, Math.min(idx, questions.length - 1));
   const q = questions[current];
   document.getElementById('q-number').textContent = `${current+1}/${questions.length}`;
   document.getElementById('question-text').textContent = q.prompt || '(שאלה ללא טקסט)';
+  const topic = document.getElementById('question-topic');
+  if (topic) topic.textContent = `מקור תשובה: ${q.source_label || 'לא ידוע'}`;
   const opts = document.getElementById('options');
   opts.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -131,6 +264,7 @@ function renderQuestion(idx) {
   const meta = document.getElementById('progress-meta');
   if (meta) meta.textContent = `${current+1} מתוך ${questions.length}`;
   document.getElementById('feedback').textContent = '';
+  populateQuestionJump();
 }
 
 function selectOption(i) {
@@ -146,14 +280,25 @@ function submitAnswer() {
   const selIdx = Number(selected.dataset.index);
   const q = questions[current];
   const correctIdx = typeof q.correct_index === 'number' ? q.correct_index : -1;
+  const previousAnswer = answersByQuestion[current];
   const opts = document.querySelectorAll('#options .option');
   opts.forEach((o,i) => { o.classList.remove('correct','wrong'); if (i===correctIdx) o.classList.add('correct'); if (i===selIdx && i!==correctIdx) o.classList.add('wrong'); });
   if (correctIdx >= 0) {
-    if (selIdx === correctIdx) { document.getElementById('feedback').textContent = 'נכון!'; stats.correct += 1; }
-    else document.getElementById('feedback').textContent = 'לא נכון';
-    stats.answered += 1; updateStats();
+    answersByQuestion[current] = selIdx;
+    if (previousAnswer === null) stats.answered += 1;
+    if (previousAnswer === correctIdx && selIdx !== correctIdx) stats.correct -= 1;
+    if (previousAnswer !== correctIdx && selIdx === correctIdx) stats.correct += 1;
+    if (q.answer_verified) {
+      if (selIdx === correctIdx) { document.getElementById('feedback').textContent = 'נכון! (פתרון רשמי מאומת)'; }
+      else document.getElementById('feedback').textContent = 'לא נכון (בהתבסס על פתרון רשמי מאומת)';
+    } else {
+      if (selIdx === correctIdx) { document.getElementById('feedback').textContent = 'נכון לפי מפתח התשובות של המאגר'; }
+      else document.getElementById('feedback').textContent = 'לא נכון לפי מפתח התשובות של המאגר';
+    }
+    updateStats();
+    populateQuestionJump();
   } else {
-    document.getElementById('feedback').textContent = 'אין מפתח תשובה לשאלה זו';
+    document.getElementById('feedback').textContent = 'לשאלה זו אין מפתח תשובה אמין כרגע';
   }
 }
 
@@ -164,9 +309,41 @@ function populateQuestionJump() {
   const container = document.getElementById('question-jump');
   if (!container) return;
   container.innerHTML = '';
-  for (let i=0;i<questions.length;i++) {
-    const btn = document.createElement('button'); btn.textContent = i+1; btn.onclick = () => renderQuestion(i); container.appendChild(btn);
+  const summary = document.getElementById('jump-summary');
+  const input = document.getElementById('jump-input');
+  if (!questions.length) {
+    if (summary) summary.textContent = 'אין שאלות להצגה כרגע.';
+    if (input) input.value = '';
+    return;
   }
+  if (summary) {
+    const rangeStart = Math.max(0, current - 6) + 1;
+    const rangeEnd = Math.min(questions.length, current + 6);
+    summary.textContent = `מוצגות שאלות ${rangeStart}-${rangeEnd} מתוך ${questions.length}`;
+  }
+  if (input) input.value = String(current + 1);
+
+  const start = Math.max(0, current - 6);
+  const end = Math.min(questions.length, current + 7);
+  for (let i=start;i<end;i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i + 1;
+    btn.className = 'jump-btn';
+    if (i === current) btn.classList.add('active');
+    if (answersByQuestion[i] !== null) btn.classList.add('answered');
+    btn.onclick = () => renderQuestion(i);
+    container.appendChild(btn);
+  }
+}
+
+function jumpToQuestionInput() {
+  if (!questions.length) return;
+  const input = document.getElementById('jump-input');
+  if (!input) return;
+  const value = Number(input.value);
+  if (!Number.isFinite(value)) return;
+  const index = Math.max(0, Math.min(questions.length - 1, Math.floor(value) - 1));
+  renderQuestion(index);
 }
 
 function updateStats() {
@@ -177,13 +354,25 @@ function updateStats() {
 
 window.addEventListener('load', () => {
   // wire controls
+  document.querySelectorAll('[data-action="start-verified"]').forEach(b => b.onclick = startVerifiedTest);
   document.querySelectorAll('[data-action="start-full"]').forEach(b => b.onclick = startFullTest);
   document.querySelectorAll('[data-action="start-random"]').forEach(b => b.onclick = startRandomTest);
-  document.querySelectorAll('[data-action="reset"]').forEach(b => { b.onclick = () => { questions = []; stats = {total:0,answered:0,correct:0}; renderQuestion(0); updateStats(); }; });
+  document.querySelectorAll('[data-action="reset"]').forEach(b => { b.onclick = () => { questions = []; answersByQuestion = []; stats = {total:0,answered:0,correct:0}; renderQuestion(0); updateStats(); }; });
   document.getElementById('btn-prev').onclick = prevQuestion;
   document.getElementById('btn-next').onclick = nextQuestion;
   document.getElementById('btn-submit').onclick = submitAnswer;
-  // disable start buttons until data loads
-  document.querySelectorAll('[data-action="start-full"], [data-action="start-random"]').forEach(b => { if (b) b.disabled = true; });
-  loadData().then(() => { /* data ready */ }).catch(e => console.error(e));
+  const jumpBtn = document.getElementById('btn-jump-go');
+  if (jumpBtn) jumpBtn.onclick = jumpToQuestionInput;
+  const jumpInput = document.getElementById('jump-input');
+  if (jumpInput) {
+    jumpInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') jumpToQuestionInput();
+    });
+  }
+  loadData().then(() => {
+    if (!dataLoaded) startFullTest();
+  }).catch(e => {
+    console.error(e);
+    startFullTest();
+  });
 });

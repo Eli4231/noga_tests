@@ -14,17 +14,18 @@
     <main class="app-shell">
         <header class="hero card">
             <div class="hero-copy">
-                <p class="eyebrow">תרגול מבחני מה"ט</p>
+                <p class="eyebrow">תרגול מבחני מה"ט - הנדסאי סאונד/קול</p>
                 <h1>אתר תרגול שאלות אמריקאיות</h1>
               
             </div>
 
             <div class="hero-actions">
+                <button type="button" class="primary" data-action="start-verified">מבחן מאומת</button>
                 <button type="button" class="primary" data-action="start-full">מבחן מלא</button>
                 <button type="button" data-action="start-random">מבחן אקראי</button>
                 <button type="button" data-action="reset">איפוס</button>
             </div>
-            <div id="debug-status" style="margin-top:8px;color:#666">סטטוס: ממתין לטעינת מאגר...</div>
+            <div id="debug-status" style="margin-top:8px;color:#666">טוען מאגר שאלות...</div>
         </header>
 
         <section class="stats-grid" aria-label="סטטוס המבחן">
@@ -63,7 +64,7 @@
                 </div>
 
                 <div class="question-card">
-                    <p class="question-topic" id="question-topic">&nbsp;</p>
+                    <p class="question-topic" id="question-topic">מקור תשובה: לא ידוע</p>
                     <p class="question-text" id="question-text"></p>
                 </div>
 
@@ -84,6 +85,14 @@
                         <p class="section-label">ניווט</p>
                         <h2>קפיצה לשאלה</h2>
                     </div>
+                    <div class="jump-tools">
+                        <label for="jump-input">מספר שאלה</label>
+                        <div class="jump-input-row">
+                            <input id="jump-input" type="number" min="1" step="1" placeholder="למשל 125">
+                            <button type="button" id="btn-jump-go">עבור</button>
+                        </div>
+                        <p id="jump-summary" class="helper-text">טוען...</p>
+                    </div>
                     <div class="question-jump" id="question-jump"></div>
                 </section>
 
@@ -92,6 +101,8 @@
         </section>
     </main>
 
+    <script src="db/mahat_questions.js"></script>
+    <script src="db/verified_questions.js"></script>
     <script src="noga.js"></script>
 </body>
 </html>

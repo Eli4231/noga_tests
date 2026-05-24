@@ -1,0 +1,750 @@
+[
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 1,
+    "prompt": "במערכת של10 ביט אנחנו רוצים לתת ערכים ל- 365 ימי השנה. מהו מינימום השעות שייתן לנו כל ערך",
+    "options": {
+      "א": "כ- 5 שעות",
+      "ב": "כ- 8.5 שעות",
+      "ג": "כ- 11 שעות",
+      "ד": "כ- 13 שעות"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 2,
+    "prompt": "במערכת32bit Floating Point, מכמה ביטים מורכב ה- Mantissa?",
+    "options": {
+      "א": "1",
+      "ב": "8",
+      "ג": "23",
+      "ד": "31"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 3,
+    "prompt": "ניתן לומר שדגימת אודיו דיגיטלי היא:",
+    "options": {
+      "א": "מחולקת ליחידות זמן.",
+      "ב": "רציפה בתדרים.",
+      "ג": "מחולקת ליחידות תדרים.",
+      "ד": "רציפה בזמן."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 4,
+    "prompt": "באופן תיאורטי, אם נרצה להקליט ללא עיוות סאונד בעל טווח דינמי של160 dB באיזה ממיר A/D נשתמש",
+    "options": {
+      "א": "44.1 kHz 32 Bit",
+      "ב": "48 kHz 24 Bit",
+      "ג": "96 kHz 20 Bit",
+      "ד": "196 kHz 16 Bit"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 5,
+    "prompt": "מהו המספר הדצימלי הנמוך ביותרשאפשר להציג ב-5 Bit ?",
+    "options": {
+      "א": "0",
+      "ב": "1",
+      "ג": "2",
+      "ד": "31"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 6,
+    "prompt": "מה הוא נפח דקת סטריאו של192 kHz / 12 bit?",
+    "options": {
+      "א": "8.64 MB",
+      "ב": "17.28 MB",
+      "ג": "34.56 MB",
+      "ד": "42 MB"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 7,
+    "prompt": "מהו מספר דצימלי",
+    "options": {
+      "א": "מספר לא זוגי.",
+      "ב": "מספר זוגי.",
+      "ג": "מספר המורכב מהספרות 0 עד9.",
+      "ד": "מספר המורכב מהספרות 0,1."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 8,
+    "prompt": "מהו ה- Bitrate של קובץ מונוWav 96 kHz 24 bit?",
+    "options": {
+      "א": "576 Kbps",
+      "ב": "1152 Kbps",
+      "ג": "2304 Kbps",
+      "ד": "4608 Kbps"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 9,
+    "prompt": "מהו הערך הבינארי של המספר הדצימלי99?",
+    "options": {
+      "א": "01100100",
+      "ב": "01100011",
+      "ג": "01100010",
+      "ד": "01100101"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 10,
+    "prompt": "לשם מה משתמשים ב- Over Sampling ?",
+    "options": {
+      "א": "כאשר יש בשימוש קווי אודיו דיגיטלי ארוכים.",
+      "ב": "כאשר יש צורך בהקלטת אודיו דיגיטלי בעל עוצמות חזקות במיוחד.",
+      "ג": "כאשר רוצים למנוע עיוות של האודיו ולכן דוגמים בתדר גבוה פי כמה מתדר האודיו הגבוה ביותר.",
+      "ד": "כאשר רוצים לדגום את הסיגנל האנלוגי כמה פעמים."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 11,
+    "prompt": "איך מתוארים הערכים הבוליאניים בשפות תכנות",
+    "options": {
+      "א": "Black / White",
+      "ב": "Live / Dead",
+      "ג": "True / False",
+      "ד": "Hot / Cold"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 12,
+    "prompt": "באופן תיאורטי, אילו היה קובץMP3 שווה באיכותו לאיכות של Stereo Wav 192 kHz 20 Bit , באיזה קובץ היה מדובר",
+    "options": {
+      "א": "MP3 3333 Kbps",
+      "ב": "MP3 7680 Kbps",
+      "ג": "MP3 5024 Kbps",
+      "ד": "MP3 1024 Kbps"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 13,
+    "prompt": "אם נדגום בממירD/A 24 ביט, איזה טווח דינמי יהיה לו",
+    "options": {
+      "א": "160 dB",
+      "ב": "256 dB",
+      "ג": "144 dB",
+      "ד": "192 dB"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 14,
+    "prompt": "מהוVBR?",
+    "options": {
+      "א": "קצב הזרמת ביטים משתנה.",
+      "ב": "קצב הזרמת ביטים קבוע.",
+      "ג": "תדר דגימה משתנה.",
+      "ד": "תדר דגימה קבוע."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 15,
+    "prompt": "פתרו את החשבון הבינארי הבא: 01101100+1100",
+    "options": {
+      "א": "01111000",
+      "ב": "01111001",
+      "ג": "01111010",
+      "ד": "01110111"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 16,
+    "prompt": "במערכת32bit Floating Point, מה מייצג באופן הנכון ביותר את ה-Mantissa ?",
+    "options": {
+      "א": "מספר שלם.",
+      "ב": "שבר.",
+      "ג": "בסיס.",
+      "ד": "חזקה."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 17,
+    "prompt": "מהוLSB?",
+    "options": {
+      "א": "Lowest Signal Bit.",
+      "ב": "Least Significant Byte.",
+      "ג": "Low Significant Bit.",
+      "ד": "Least Significant Bit."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 18,
+    "prompt": "כמה זמן ייקח להעלות לשרת קובץ של125 MB בקצב העלאה של20 Mbps?",
+    "options": {
+      "א": "כ- 0 דקה ו-25 שניות.",
+      "ב": "כ- 0 דקה ו-50 שניות.",
+      "ג": "כדקה אחת ו-25 שניות.",
+      "ד": "כדקה אחת ו-10 שניות."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 19,
+    "prompt": "מה קובע את רמת הדיוק של השעון בממיראנלוג לדיגיטל?",
+    "options": {
+      "א": "דיודה",
+      "ב": "מעגל על בסיס מוליך למחצה",
+      "ג": "מתנד גבישי",
+      "ד": "קבל משתנה"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 20,
+    "prompt": "פתרו את תרגיל החשבון הבינארי הבא: התשובה בבסיס דצימלי 010000000000 +00011000.",
+    "options": {
+      "א": "850",
+      "ב": "1048",
+      "ג": "1078",
+      "ד": "2000"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 21,
+    "prompt": "לפי חוק ניקויסט, לאיזה ממירA/D נזדקק אם נרצה לדגום גל קול בתדר של90 kHz?",
+    "options": {
+      "א": "44.1 kHz",
+      "ב": "96 kHz",
+      "ג": "112 kHz",
+      "ד": "192 kHz"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 22,
+    "prompt": "מהו המספר הדצימלי הנמוך ביותר שאפשר להציג ב8Bit?",
+    "options": {
+      "א": "4",
+      "ב": "2",
+      "ג": "1",
+      "ד": "0"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 23,
+    "prompt": "מכמה ספרות בינאריות בנוי מספר המוצג ב- 10 ביט",
+    "options": {
+      "א": "2",
+      "ב": "8",
+      "ג": "10",
+      "ד": "16"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 24,
+    "prompt": "מהו תפקידו העיקרי של ה- Dither?",
+    "options": {
+      "א": "הגדלת הטווח הדינמי.",
+      "ב": "צמצום ה - Quantization Error.",
+      "ג": "צמצום השגיאות בהעברת הנתונים.",
+      "ד": "הגדלת תחום התדרים הנדגם."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 25,
+    "prompt": "קובץBWAV interleaved הוא קובץ המכיל לפחות",
+    "options": {
+      "א": "שני ערוצי מונו משולבים.",
+      "ב": "ערוץ מונו אחד.",
+      "ג": "שני ערוצי סטריאו לא משולבים.",
+      "ד": "ארבעה ערוצי מונו משולבים."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 26,
+    "prompt": "Terabyte (TB) שווה ל- 1000 בחזקת",
+    "options": {
+      "א": "2",
+      "ב": "3",
+      "ג": "4",
+      "ד": "5"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 27,
+    "prompt": "מהו הערך הדצימליהגבוה ביותר שאפשר להציג במערכת 12 ביט",
+    "options": {
+      "א": "4095",
+      "ב": "4094",
+      "ג": "8191",
+      "ד": "2047"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 28,
+    "prompt": "על מערכת הקלטה של192 kHz 24 bit אנחנו מקליטים טון של50 Hz בעוצמה של-48 dBFS . בכמה ביטים משתמשים בהקלטה?",
+    "options": {
+      "א": "12",
+      "ב": "16",
+      "ג": "20",
+      "ד": "24"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 29,
+    "prompt": "מהו ההבדל בנפח בין1KB לבין1KiB?",
+    "options": {
+      "א": "0 בייט",
+      "ב": "8 בייט",
+      "ג": "16 בייט",
+      "ד": "24 בייט"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 30,
+    "prompt": "מהו ה- Bitrate של הפורמט Mono Wav 32 kHz 8 Bit?",
+    "options": {
+      "א": "10000 Kbps",
+      "ב": "1024 Kbps",
+      "ג": "512 Kbps",
+      "ד": "256 Kbps"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 31,
+    "prompt": "ברשותך מערכת דיגיטלית של חמישה ביט, המערכת מסוגלת לדגום מתח אנלוגי מקסימלי של50 וולט מה יהיה שינוי המתח המינימלי שאותו תוכל המערכת לרשום?",
+    "options": {
+      "א": "0.8 וולט",
+      "ב": "1.22 וולט",
+      "ג": "1.56 וולט",
+      "ד": "2.34 וולט"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 32,
+    "prompt": "מהוCBR?",
+    "options": {
+      "א": "קצב הזרמת ביטים קבוע.",
+      "ב": "קצב הזרמת ביטים מתמשך.",
+      "ג": "קצב הזרמת ביטים דינמי.",
+      "ד": "קצב הזרמת ביטים משתנה."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 33,
+    "prompt": "כמה זמן ייקח להעלות לשרת קובץ של1.25 GB בקצבהעלאה של 95 Mbps?",
+    "options": {
+      "א": "כ- 0 דקה ו-5 5 שניות.",
+      "ב": "כדקה אחת ו-10 שניות.",
+      "ג": "כדקה אחת ו-45 שניות.",
+      "ד": "כשתי דקות ו-40 שניות."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 34,
+    "prompt": "מה יהיה ההבדל (ב- dB) בטווח הדינמי שבין שני ממיריA/D: האחד– 48 kHz 20 Bit, האחר– 196 kHz 24 Bit?",
+    "options": {
+      "א": "0",
+      "ב": "6",
+      "ג": "12",
+      "ד": "24"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 35,
+    "prompt": "אם נקדד קובץ15 דקות סטריאוWav 44.1 16 bit לקובץMP3 באיכות112 Kbps, מה יהיה נפח קובץ ה- MP3?",
+    "options": {
+      "א": "6.3 MB",
+      "ב": "12.6 MB",
+      "ג": "25.2 MB",
+      "ד": "38.5 MB"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 36,
+    "prompt": "מנגנים קובץ אודיו דיגיטלי במערכת שלנו ורואים שהפיק שלו מגיע למינוס8.5 דיבי. איזה דיבי זה",
+    "options": {
+      "א": "dB FS",
+      "ב": "dB SPL",
+      "ג": "dB VU",
+      "ד": "DB V"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 37,
+    "prompt": "מהו הנפח של קובץ Mono WAV 192 kHz 24 Bit בן שנייה אחת",
+    "options": {
+      "א": "1022 kB",
+      "ב": "1152 kB",
+      "ג": "176.4 kB",
+      "ד": "576 kB"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 38,
+    "prompt": "מהוBitrate?",
+    "options": {
+      "א": "קצב זרימת ביטים ביחס לרוחב הפס.",
+      "ב": "קצב זרימת ביטים ביחס לתדר הדגימה.",
+      "ג": "קצב זרימת ביטים לזמן מוגדר.",
+      "ד": "קצב המרת ביטים לשנייה."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 39,
+    "prompt": "מהו תפקיד ה- Dither?",
+    "options": {
+      "א": "מנחית רעש מהסיגנל כדי למנוע עיוות בדגימה ברזולוציה נמוכה.",
+      "ב": "מוסיף רעש לסיגנל כדי למנוע עיוות בדגימה ברזולוציה נמוכה.",
+      "ג": "מנחית רעש מהסיגנל כדי למנוע עיוות בדגימה ברזולוציה גבוהה.",
+      "ד": "מוסיף רעש לסיגנל כדי למנוע עיוות בדגימה ברזולוציה גבוהה."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 40,
+    "prompt": "כמה ביט יש ב- 900 MB?",
+    "options": {
+      "א": "9000 Mbit",
+      "ב": "7200 Mbit",
+      "ג": "14400 Mbit",
+      "ד": "8700 Mbit"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 41,
+    "prompt": "בחרנו להקליט את כל הערוצים בפורמטWav 44.1 kHz 16 Bit במכשיר הקלטה דיגיטלי בעל20 ערוצים מה יהיה נפח סך כול הקבצים שהוקלטו בחמש דקות?",
+    "options": {
+      "א": "כ- 1.1 GB",
+      "ב": "כ-1.3 GB",
+      "ג": "כ- 530 MB",
+      "ד": "כ-820 MB"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 42,
+    "prompt": "כמה ביטים יש ב- 8 בייט",
+    "options": {
+      "א": "8",
+      "ב": "16",
+      "ג": "32",
+      "ד": "64"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 44,
+    "prompt": "מהו היתרון בהקלטה ב- 16bit לעומת הקלטה ב- 24bit?",
+    "options": {
+      "א": "צמצום בשטח האחסון.",
+      "ב": "תדרים גבוהים מדויקים יותר.",
+      "ג": "הגדלת הטווח הדינמי בהקלטה.",
+      "ד": "הכפלת הרמוניות מדויקות יותר."
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  },
+  {
+    "exam_id": "29569*",
+    "file_name": "mahat_tests_search (52).pdf",
+    "exam_title": "הנדסת קול2",
+    "question_number": 45,
+    "prompt": "במערכת32bit Floating Point, כמה ביטיםמכיל ה- Exponent?",
+    "options": {
+      "א": "1",
+      "ב": "8",
+      "ג": "23",
+      "ד": "31 בהצלחה ©כל הזכויות שמורות למה\"ט עמוד1 מתוך2 שאלה1 א ב ג ד שאלה 2 א ב ג ד שאלה 3 א ב ג ד שאלה 4 א ב ג ד שאלה 5 א ב ג ד שאלה 6 א ב ג ד שאלה 7 א ב ג ד שאלה 8 א ב ג ד שאלה 9 א ב ג ד שאלה 10 א ב ג ד שאלה 11 א ב ג ד שאלה 12 א ב ג ד שאלה 13 א ב ג ד שאלה 14 א ב ג ד שאלה 15 א ב ג ד שאלה 16 א ב ג ד שאלה 17 א ב ג ד שאלה 18 א ב ג ד שאלה 19 א ב ג ד שאלה 20 א ב ג ד שאלה 21 א ב ג ד שאלה 22 א ב ג ד מספר ת.ז מספר מחברת עמוד2 מתוך2 שאלה23 א ב ג ד שאלה 24 א ב ג ד שאלה 25 א ב ג ד שאלה 26 א ב ג ד שאלה 27 א ב ג ד שאלה 28 א ב ג ד שאלה 29 א ב ג ד שאלה 30 א ב ג ד שאלה 31 א ב ג ד שאלה 32 א ב ג ד שאלה 33 א ב ג ד שאלה 34 א ב ג ד שאלה 35 א ב ג ד שאלה 36 א ב ג ד שאלה 37 א ב ג ד שאלה 38 א ב ג ד שאלה 39 א ב ג ד שאלה 40 א ב ג ד שאלה 41 א ב ג ד שאלה 42 א ב ג ד שאלה 34 א ב ג ד שאלה 44 א ב ג ד שאלה 45 א ב ג ד מספר ת.ז מספר מחברת"
+    },
+    "correct_answer": "א",
+    "correct_index": 0,
+    "answer_verified": true,
+    "verification_source": "strict_exam_id_match"
+  }
+]
