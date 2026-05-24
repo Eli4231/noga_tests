@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>נוגה - תרגול מבחנים אמריקאיים</title>
+    <link rel="stylesheet" href="noga.css">
+    <meta name="color-scheme" content="light dark">
+</head>
+<body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+
+    <main class="app-shell">
+        <header class="hero card">
+            <div class="hero-copy">
+                <p class="eyebrow">תרגול מבחני מה"ט</p>
+                <h1>אתר תרגול שאלות אמריקאיות</h1>
+              
+            </div>
+
+            <div class="hero-actions">
+                <button type="button" class="primary" data-action="start-full">מבחן מלא</button>
+                <button type="button" data-action="start-random">מבחן אקראי</button>
+                <button type="button" data-action="reset">איפוס</button>
+            </div>
+            <div id="debug-status" style="margin-top:8px;color:#666">סטטוס: ממתין לטעינת מאגר...</div>
+        </header>
+
+        <section class="stats-grid" aria-label="סטטוס המבחן">
+            <article class="stat card">
+                <span class="stat-label">שאלות</span>
+                <strong id="stat-total">0</strong>
+            </article>
+            <article class="stat card">
+                <span class="stat-label">נענו</span>
+                <strong id="stat-answered">0</strong>
+            </article>
+            <article class="stat card">
+                <span class="stat-label">נכונים</span>
+                <strong id="stat-correct">0</strong>
+            </article>
+            <article class="stat card">
+                <span class="stat-label">מצב</span>
+                <strong id="stat-status">מוכן לתרגול</strong>
+            </article>
+        </section>
+
+        <section class="quiz-layout">
+            <article class="quiz-panel card">
+                <div class="progress-head">
+                    <div>
+                        <p class="section-label">מבחן</p>
+                        <h2 id="question-title">שאלה 1</h2>
+                        <div id="q-number">0/0</div>
+                        <div id="exam-title" class="muted">(מבחן לא נטען)</div>
+                    </div>
+                    <div class="progress-meta" id="progress-meta">0 מתוך 0</div>
+                </div>
+
+                <div class="progress-bar" aria-hidden="true">
+                    <span id="progress-fill"></span>
+                </div>
+
+                <div class="question-card">
+                    <p class="question-topic" id="question-topic">&nbsp;</p>
+                    <p class="question-text" id="question-text"></p>
+                </div>
+
+                <div class="options" id="options" role="list"></div>
+
+                <div class="feedback" id="feedback" aria-live="polite"></div>
+
+                <div class="quiz-controls">
+                    <button type="button" id="btn-prev">הקודם</button>
+                    <button type="button" id="btn-submit" class="primary">בדיקה</button>
+                    <button type="button" id="btn-next">הבא</button>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <section class="card navigator-card">
+                    <div class="section-head">
+                        <p class="section-label">ניווט</p>
+                        <h2>קפיצה לשאלה</h2>
+                    </div>
+                    <div class="question-jump" id="question-jump"></div>
+                </section>
+
+                
+            </aside>
+        </section>
+    </main>
+
+    <script src="noga.js"></script>
+</body>
+</html>
