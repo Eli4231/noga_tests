@@ -6,71 +6,26 @@ let current = 0;
 let stats = { total: 0, answered: 0, correct: 0 };
 let dataLoaded = false;
 let answersByQuestion = [];
+let verifiedQuestionsPool = [];
 
 const LETTERS = ['א','ב','ג','ד'];
 const EMBEDDED_DB_KEY = 'MAHAT_QUESTIONS_DATA';
 const VERIFIED_DB_KEY = 'MAHAT_VERIFIED_DATA';
 const verifiedQuestionKeys = new Set();
 const verifiedAnswerByKey = new Map();
-let qualityState = {
-  main: { trusted: false, reason: 'טרם נבדק' },
-  verified: { trusted: false, reason: 'טרם נבדק' }
-};
-
-function evaluateAnswerQuality(indexes, label) {
-  const counts = [0, 0, 0, 0];
-  let total = 0;
-  for (const index of indexes) {
-    if (!Number.isInteger(index) || index < 0 || index > 3) continue;
-    counts[index] += 1;
-    total += 1;
-  }
-  if (total < 20) {
-    return { trusted: false, reason: `${label}: פחות מדי תשובות זמינות (${total})` };
-  }
-  const distinct = counts.filter((count) => count > 0).length;
-  const dominant = Math.max(...counts);
-  const dominantRatio = dominant / total;
-  if (distinct < 3) {
-    return { trusted: false, reason: `${label}: התפלגות תשובות צרה מדי (${counts.join('/')})` };
-  }
-  if (dominantRatio > 0.75) {
-    return { trusted: false, reason: `${label}: התפלגות חשודה (${counts.join('/')})` };
-  }
-  return { trusted: true, reason: `${label}: התפלגות נראית תקינה (${counts.join('/')})` };
-}
-
-function evaluateMainDatasetQuality(datasetExams) {
-  const indexes = [];
-  for (const exam of datasetExams || []) {
-    for (const question of exam.questions || []) {
-      if (Number.isInteger(question.correct_index)) {
-        indexes.push(question.correct_index);
-      } else if (question.correct_answer) {
-        indexes.push(LETTERS.indexOf(question.correct_answer));
-      }
-    }
-  }
-  qualityState.main = evaluateAnswerQuality(indexes, 'מאגר ראשי');
-}
 
 function applyLoadedExams(loadedExams, sourceLabel = 'מאגר') {
   exams = Array.isArray(loadedExams) ? loadedExams : [];
   dataLoaded = exams.length > 0;
-  evaluateMainDatasetQuality(exams);
   document.querySelectorAll('[data-action="start-full"], [data-action="start-random"]').forEach(b => { if (b) b.disabled = false; });
-  document.querySelectorAll('[data-action="start-verified"]').forEach(b => { if (b) b.disabled = !qualityState.verified.trusted; });
+  document.querySelectorAll('[data-action="start-verified"]').forEach(b => { if (b) b.disabled = verifiedQuestionsPool.length === 0; });
   const totalQ = exams.flatMap(e => e.questions || []).length;
   setExamTitle({exam_title: `${sourceLabel}: ${exams.length} מבחנים, ${totalQ} שאלות`});
   const dbg = document.getElementById('debug-status');
   if (dbg) {
-    if (!dataLoaded) {
-      dbg.textContent = 'לא נטענו מבחנים.';
-    } else if (!qualityState.main.trusted && !qualityState.verified.trusted) {
-      dbg.textContent = `סטטוס: נטענו ${exams.length} מבחנים, אך אמינות מפתח התשובות חשודה. (${qualityState.main.reason})`;
-    } else {
-      dbg.textContent = `סטטוס: נטען ${exams.length} מבחנים, ${totalQ} שאלות`;
-    }
+    dbg.textContent = dataLoaded
+      ? `סטטוס: המאגר נטען בהצלחה (${totalQ} שאלות).`
+      : 'סטטוס: לא נטענו מבחנים.';
   }
 }
 
@@ -99,16 +54,16 @@ function normalizeQuestion(raw, examMeta = {}) {
   const hasVerifiedAnswer = verifiedAnswerByKey.has(key);
   const fallbackIndex = typeof raw.correct_index === 'number' ? raw.correct_index : (raw.correct_answer ? LETTERS.indexOf(raw.correct_answer) : -1);
   let resolvedIndex = -1;
-  let sourceLabel = 'ללא מפתח תשובה אמין';
+  let sourceLabel = 'מבחן לא מאומת';
   let isVerified = false;
 
   if (hasVerifiedAnswer) {
     resolvedIndex = verifiedAnswerByKey.get(key);
     sourceLabel = 'פתרון רשמי מאומת (מה"ט)';
     isVerified = true;
-  } else if (qualityState.main.trusted && fallbackIndex >= 0) {
+  } else if (fallbackIndex >= 0) {
     resolvedIndex = fallbackIndex;
-    sourceLabel = 'מפתח תשובות מהמאגר (לא מאומת רשמית)';
+    sourceLabel = 'מבחן לא מאומת';
   }
 
   return {
@@ -120,25 +75,43 @@ function normalizeQuestion(raw, examMeta = {}) {
   };
 }
 
+function normalizeVerifiedQuestion(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  let opts = [];
+  if (Array.isArray(raw.options)) opts = raw.options.slice(0, 4);
+  else if (raw.options && typeof raw.options === 'object') {
+    opts = LETTERS.map((letter) => raw.options[letter] || '');
+  }
+  while (opts.length < 4) opts.push('');
+  const idx = Number.isInteger(raw.correct_index)
+    ? raw.correct_index
+    : LETTERS.indexOf(raw.correct_answer);
+  if (!Number.isInteger(idx) || idx < 0 || idx > 3) return null;
+  return {
+    prompt: raw.prompt || raw.text || raw.prompt_text || '',
+    options: opts.slice(0, 4),
+    correct_index: idx,
+    source_label: 'פתרון רשמי מאומת (מה"ט)',
+    answer_verified: true
+  };
+}
+
 async function loadData() {
   try {
     const verifiedFromScript = Array.isArray(window[VERIFIED_DB_KEY]) ? window[VERIFIED_DB_KEY] : [];
-    qualityState.verified = evaluateAnswerQuality(
-      verifiedFromScript.map((item) => Number(item?.correct_index)),
-      'מאגר מאומת'
-    );
 
     verifiedQuestionKeys.clear();
     verifiedAnswerByKey.clear();
-    if (qualityState.verified.trusted) {
-      for (const item of verifiedFromScript) {
-        if (!item || typeof item !== 'object') continue;
-        const key = makeQuestionKey(item.exam_id, item.question_number);
-        if (!key) continue;
-        if (!Number.isInteger(item.correct_index)) continue;
+    verifiedQuestionsPool = [];
+    for (const item of verifiedFromScript) {
+      if (!item || typeof item !== 'object') continue;
+      const key = makeQuestionKey(item.exam_id, item.question_number);
+      if (key && Number.isInteger(item.correct_index)) {
         verifiedQuestionKeys.add(key);
         verifiedAnswerByKey.set(key, item.correct_index);
       }
+      const normalized = normalizeVerifiedQuestion(item);
+      if (normalized) verifiedQuestionsPool.push(normalized);
     }
 
     if (Array.isArray(window[EMBEDDED_DB_KEY]) && window[EMBEDDED_DB_KEY].length) {
@@ -206,15 +179,12 @@ function startRandomTest() {
 }
 
 function startVerifiedTest() {
-  const pool = exams
-    .flatMap(e => (e.questions || []).map(q => normalizeQuestion(q, e)))
-    .filter(q => q.answer_verified);
-  if (!pool.length) {
+  if (!verifiedQuestionsPool.length) {
     const dbg = document.getElementById('debug-status');
-    if (dbg) dbg.textContent = 'לא נמצאו מספיק שאלות מאומתות. עבר למבחן מלא.';
+    if (dbg) dbg.textContent = 'לא נמצאו כרגע שאלות מאומתות.';
     return startFullTest();
   }
-  questions = pool;
+  questions = [...verifiedQuestionsPool];
   answersByQuestion = new Array(questions.length).fill(null);
   stats.total = questions.length;
   stats.answered = 0;
@@ -298,7 +268,7 @@ function submitAnswer() {
     updateStats();
     populateQuestionJump();
   } else {
-    document.getElementById('feedback').textContent = 'לשאלה זו אין מפתח תשובה אמין כרגע';
+    document.getElementById('feedback').textContent = 'לשאלה זו אין תשובה מוגדרת';
   }
 }
 
